@@ -1,6 +1,10 @@
-var http = require('http'),
+
+const http = require('http'),
     fileSystem = require('fs'),
     path = require('path');
+
+
+const port = process.env.PORT || 3000;
 
 http.createServer(function(request, response) {
     var filePath = path.join(__dirname, 'assets', "index.html");
@@ -18,4 +22,4 @@ http.createServer(function(request, response) {
     // We replaced all the event handlers with a simple call to readStream.pipe()
     readStream.pipe(response);
 })
-.listen(3000, () => (`Server running at http://localhost:3000`));
+.listen(port, () => (`Server running at http://localhost:3000`));
