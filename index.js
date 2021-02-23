@@ -38,7 +38,6 @@ app.use(express.static(path.join(__dirname, 'assets'), {
 }))
 
 
-
 // Server Cached Request
 app.get("/serverCached", (req, res) => {
     res.json({
