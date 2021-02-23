@@ -4,9 +4,10 @@ const cache = flatCache.load('my-cache');
 
 // create flat cache routes
 let flatCacheMiddleware = (req, res, next) => {
-    console.log(cache.all())
+    console.log({cached_paths: cache.all()})
 
     let key = '__express__' + req.url
+
     let cacheContent = cache.getKey(key);
     if (cacheContent) {
         res.send(cacheContent);

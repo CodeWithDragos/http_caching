@@ -6,6 +6,7 @@ const serverCache = require("./serverCache")
 
 app.use(serverCache)
 
+// Manual Caching Example: Headers are ser manually
 app.get("/", (req, res) => {
     // 'Content-Type': 'text/html',
     // 'Content-Length': stat.size,
@@ -13,19 +14,39 @@ app.get("/", (req, res) => {
     // 'Cache-Control': 'no-cache',
     // 'Cache-Control': 'public, max-age=20'
     // Etags, Expire
-    console.log("Server hit at:" + new Date())
-    res.setHeader('Cache-Control', 'public, max-age=10')
+    console.log("Server hit at:" + new Date(), req.headers)
+    res.setHeader('Cache-Control', 'public, max-age=604800, immutable')
     res.sendFile(path.join(__dirname, 'assets', "index.html"))
 })
 
-// staic files
+app.get("/index.html", (req, res) => {
+    // 'Content-Type': 'text/html',
+    // 'Content-Length': stat.size,
+    // 'Cache-Control': 'no-store',
+    // 'Cache-Control': 'no-cache',
+    // 'Cache-Control': 'public, max-age=20'
+    // Etags, Expire
+    console.log("Server hit at:" + new Date(), req.headers)
+    res.setHeader('Cache-Control', 'public, max-age=604800, immutable')
+    res.sendFile(path.join(__dirname, 'assets', "index.html"))
+})
+
+// Static Assests Middleware Example
 app.use(express.static(path.join(__dirname, 'assets'), {
     etag: false,
     maxAge: 60
 }))
 
-app.set('etag', false);
 
+
+// Server Cached Request
+app.get("/serverCached", (req, res) => {
+    res.json({
+        name: "harry"
+    })
+})
+
+app.set('etag', false);
 
 const port = process.env.PORT || 3000;
 
